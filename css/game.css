@@ -254,3 +254,5 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden}
 .choice .egauge i{display:block;height:100%;width:100%;background:#ff2d2d;transform-origin:50% 50%;transition:opacity .3s}
 
 @media (prefers-reduced-motion:reduce){.tri{animation:none}}
+/* QUIT: 진한 판자 + 흰 글자라 multiply 대신 투명 배경 이미지를 그대로 */
+.sbtn.quit{mix-blend-mode:normal}

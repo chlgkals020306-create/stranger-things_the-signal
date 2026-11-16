@@ -16,7 +16,6 @@
 | intro.mp4 | intro 배경 (반복 재생, 음소거) |
 | chapter_1.mp4 / chapter_2.mp4 / chapter_3.mp4 / chapter_4.mp4 | 각 챕터 영상 |
 | intro_animation.mp4 | chapter_1 다음 영상 |
-| billy.mp4 | Scene #1_billy_video |
 | max_scream.mp4 | Scene #2_max_scream |
 
 파일이 없으면 그 자리는 첫 프레임 이미지(또는 검은 화면)만 잠깐 보이고 다음 씬으로 넘어갑니다.
@@ -122,3 +121,8 @@
   - tangle_sound.mp3: 미니게임에서 billy_vecna 가 한 장 사라질 때마다
 - 설정 창 / OPTIONS 의 배경음악·효과음 슬라이더가 실제로 동작 (배경음악 = main sound 1·2, 효과음 = 나머지 전부)
 - 브라우저 정책상 첫 화면에서는 한 번 클릭한 뒤부터 소리가 납니다
+
+## 11/16 8차 수정
+- Scene #1_billy_video 삭제: Scene #1_night 다음 바로 Scene #1_billy_1 로 이어집니다 (`billy.mp4` 연결도 제거)
+- 설정 창을 피그마 새 레이어대로 재배치 (음향·그래픽·슬라이더·버튼이 위로 올라감) + QUIT 버튼 추가
+  - QUIT → 설정 창이 내려가면서 진행 중이던 화면이 fade out 되고 맨 처음 intro 화면으로 돌아갑니다 (진행 상황·아이템 초기화)

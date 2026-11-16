@@ -81,7 +81,6 @@ const DATA = {
     intro: 'intro.mp4',
     chapter_1: 'chapter_1.mp4',
     intro_animation: 'intro_animation.mp4',
-    billy: 'billy.mp4',
     chapter_2: 'chapter_2.mp4',
     max_scream: 'max_scream.mp4',
     chapter_3: 'chapter_3.mp4',

@@ -572,16 +572,18 @@
   const setPanel = el('div', 'spanel', settings);
   img('set_paper.webp', 422, 187, setPanel, 'paper');
   el('div', 'stitle', setPanel).textContent = 'SETTINGS';
-  img('set_sound.png', 746, 268, setPanel, 'ink');      // 음향: 배경음악 = game main sound 1·2, 효과음 = 그 밖의 모든 음원
-  el('div', 'slabel', setPanel, { left: '719px', top: '337px' }).textContent = '배경음악';
-  mkSlider(setPanel, 891.29, 334, 'bgm');
-  el('div', 'slabel', setPanel, { left: '719px', top: '377px' }).textContent = '효과음';
-  mkSlider(setPanel, 891.29, 374, 'sfx');
-  img('set_graphic.png', 734, 456, setPanel, 'ink');    // 그래픽
-  el('div', 'slabel', setPanel, { left: '719px', top: '525px' }).textContent = '밝기';
-  mkSlider(setPanel, 891.29, 522);
-  const setChapters = btn('sbtn', setPanel, { left: '716px', top: '594px' }, 'CHAPTERS'); img('set_chapters.webp', 0, 0, setChapters);
-  const setCredits = btn('sbtn', setPanel, { left: '716px', top: '705px' }, 'CREDITS'); img('set_credits.webp', 0, 0, setCredits);
+  img('set_sound.png', 746, 255, setPanel, 'ink');      // 음향: 배경음악 = game main sound 1·2, 효과음 = 그 밖의 모든 음원
+  el('div', 'slabel', setPanel, { left: '719px', top: '324px' }).textContent = '배경음악';
+  mkSlider(setPanel, 891.29, 321, 'bgm');
+  el('div', 'slabel', setPanel, { left: '719px', top: '364px' }).textContent = '효과음';
+  mkSlider(setPanel, 891.29, 361, 'sfx');
+  img('set_graphic.png', 734, 429, setPanel, 'ink');    // 그래픽
+  el('div', 'slabel', setPanel, { left: '719px', top: '498px' }).textContent = '밝기';
+  mkSlider(setPanel, 891.29, 495);
+  // 피그마 settings: chapters / credits / quit 버튼 (x 715.5)
+  const setChapters = btn('sbtn', setPanel, { left: '715.5px', top: '552px' }, 'CHAPTERS'); img('set_chapters.webp', 0, 0, setChapters);
+  const setCredits = btn('sbtn', setPanel, { left: '715.5px', top: '650.8px' }, 'CREDITS'); img('set_credits.webp', 0, 0, setCredits);
+  const setQuit = btn('sbtn quit', setPanel, { left: '715.5px', top: '749.5px' }, 'QUIT'); img('set_quit.webp', 0, 0, setQuit);
   const setClose = btn('sclose', setPanel, { left: '1419px', top: '203px' }, '닫기'); img('set_close.png', 0, 0, setClose);
   let setBusy = false;
   function openSettings() {
@@ -602,6 +604,15 @@
   setClose.addEventListener('click', () => closeSettings());
   setChapters.addEventListener('click', () => { if (!setBusy) pages.open('chapter', 'game'); });
   setCredits.addEventListener('click', () => { if (!setBusy) pages.open('credit', 'game'); });
+  /* QUIT: 설정 창이 내려가는 동안 진행 중이던 화면이 fade out → 맨 처음 intro 화면 */
+  setQuit.addEventListener('click', async () => {
+    if (setBusy || busy) return;
+    hideMini(); ov.classList.remove('open', 'show');
+    closeSettings({ resume: false });
+    resetState();
+    await show('intro');                  // 이전 씬의 leave() 가 타이머·영상을 정리
+    Clock.vids = []; Clock.reset();       // 멈춰 두었던 영상은 다시 틀지 않고 시계만 풀어 줌
+  });
 
   /* ---------- intro_credit / intro_chapter 페이지 ---------- */
   const pages = (() => {
@@ -994,7 +1005,6 @@
   add('intro_animation', mkVideo(V.intro_animation, 'poster_intro_anim.jpg', { cross: true, skip: true, sound: 'intro_animation' }));
   add('scene1', mkDialogue(DATA.scene1));
   add('night', mkCard('night.jpg', T.cardHold));
-  add('billy_video', mkVideo(V.billy, null));
   add('billy', mkDialogue(Object.assign({ shake: { delay: 350, duration: 1700, amp: 44 } }, DATA.billy)));
   add('guide1', mkCard('guide_1.jpg', T.guideHold));
   add('minigame', mkMinigame());
@@ -1020,7 +1030,7 @@
     add(`${k}_ending_result`, mkResult(result));
   });
 
-  const ORDER = ['intro', 'chapter_1', 'intro_animation', 'scene1', 'night', 'billy_video', 'billy', 'guide1', 'minigame',
+  const ORDER = ['intro', 'chapter_1', 'intro_animation', 'scene1', 'night', 'billy', 'guide1', 'minigame',
     'chapter_2', 'scene2', 'overnight', 'max_scream', 'chapter_3', 'scene3', 'guide2', 'house', 'chapter_4', 'scene4', 'lab',
     'ending', 'ending_1', 'ending_2'];   // ending_2 다음은 선택에 따라 true_ending_* / bad_ending_* 로 갈라집니다
 
@@ -1031,7 +1041,7 @@
   const pre = new Set();
   const walk = o => { if (typeof o === 'string') { if (/\.(webp|png|jpg)$/.test(o)) pre.add(o); } else if (o && typeof o === 'object') Object.values(o).forEach(walk); };
   walk(DATA);
-  ['item_board.webp', 'item_walkman.webp', 'item_idcard.webp', 'fail.jpg', 'ch_bg.jpg', 'ch_1.webp', 'ch_2.webp', 'ch_3.webp', 'ch_4.webp', 'set_paper.webp', 'bg_tv.jpg'].forEach(s => pre.add(s));
+  ['item_board.webp', 'item_walkman.webp', 'item_idcard.webp', 'fail.jpg', 'ch_bg.jpg', 'ch_1.webp', 'ch_2.webp', 'ch_3.webp', 'ch_4.webp', 'set_paper.webp', 'set_quit.webp', 'bg_tv.jpg'].forEach(s => pre.add(s));
   pre.forEach(s => { const i = new Image(); i.src = IMG + s; });
 
   /* 테스트용: 주소 뒤에 #scene2, #house, #lab 처럼 씬 이름을 붙이면 그 씬부터 시작합니다 */
